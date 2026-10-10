@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ movie.title }}
+{% endblock %}
+
+{% block content %}
+
+<div class="movie-detail">
+
+    <h1>{{ movie.title }}</h1>
+
+    <img src="{{ movie.poster.url }}" width="300">
+
+    <p>
+        <strong>Description:</strong>
+        {{ movie.description }}
+    </p>
+
+    <p>
+        <strong>Release Date:</strong>
+        {{ movie.release_date }}
+    </p>
+
+    <p>
+        <strong>Actors:</strong>
+        {{ movie.actors }}
+    </p>
+
+    <p>
+        <strong>Rating:</strong>
+        ⭐ {{ movie.rating }}
+    </p>
+
+    <p>
+        <strong>Category:</strong>
+        {{ movie.category }}
+    </p>
+
+    <p>
+        <strong>Added by:</strong>
+        {{ movie.added_by.username }}
+    </p>
+
+    <p>
+        <strong>Trailer:</strong>
+        <a href="{{ movie.trailer_url }}" target="_blank">
+            Watch Trailer on YouTube
+        </a>
+    </p>
+
+    {% if user.is_authenticated %}
+
+        {% if is_favorite %}
+            <a href="{% url 'toggle_favorite' movie.id %}">
+                💔 Remove from Favorites
+            </a>
+        {% else %}
+            <a href="{% url 'toggle_favorite' movie.id %}">
+                ❤️ Add to Favorites
+            </a>
+        {% endif %}
+
+    {% else %}
+
+        <p>
+            <a href="{% url 'login' %}">Login</a>
+            to add this movie to your favorites.
+        </p>
+
+    {% endif %}
+
+    <hr>
+
+    <h2>Comments</h2>
+
+    {% for comment in comments %}
+
+        <div class="comment">
+
+            <p>
+                <strong>{{ comment.user.username }}</strong>
+            </p>
+
+            <p>{{ comment.text }}</p>
+
+            <small>{{ comment.created_at }}</small>
+
+        </div>
+
+    {% empty %}
+
+        <p>No comments yet.</p>
+
+    {% endfor %}
+
+    {% if user.is_authenticated %}
+
+        <h3>Add a Comment</h3>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit">Post Comment</button>
+
+        </form>
+
+    {% else %}
+
+        <p>
+            Please
+            <a href="{% url 'login' %}">login</a>
+            to comment.
+        </p>
+
+    {% endif %}
+
+    {% if user == movie.added_by %}
+
+        <br>
+
+        <a href="{% url 'edit_movie' movie.id %}">
+            Edit Movie
+        </a>
+
+        <a href="{% url 'delete_movie' movie.id %}">
+            Delete Movie
+        </a>
+
+    {% endif %}
+
+    <br><br>
+
+    <a href="{% url 'movie_list' %}">
+        Back to Movies
+    </a>
+
+</div>
+
+{% endblock %}

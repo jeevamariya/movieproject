@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Movies
+{% endblock %}
+
+{% block content %}
+
+<h1>All Movies</h1>
+
+<div class="movie-grid">
+    {% for movie in movies %}
+
+        <div class="movie-card">
+
+            <h2>{{ movie.title }}</h2>
+
+            <img src="{{ movie.poster.url }}" width="200">
+
+            <p>
+                <strong>Added by:</strong>
+                {{ movie.added_by.username }}
+            </p>
+
+            <p>
+                <strong>Description:</strong>
+                {{ movie.description }}
+            </p>
+
+            <p>
+                <strong>Release Date:</strong>
+                {{ movie.release_date }}
+            </p>
+
+            <p>
+                <strong>Actors:</strong>
+                {{ movie.actors }}
+            </p>
+
+            <p>
+                <strong>Rating:</strong>
+                {{ movie.rating }}
+            </p>
+
+            <p>
+                <strong>Category:</strong>
+                <a href="{% url 'category_movies' movie.category.id %}">
+                    {{ movie.category }}
+                </a>
+            </p>
+
+            <a href="{% url 'movie_detail' movie.id %}">
+                View Details
+            </a>
+
+        </div>
+        
+
+    {% empty %}
+
+        <p>No movies available.</p>
+
+    {% endfor %}
+</div>
+
+{% endblock %}

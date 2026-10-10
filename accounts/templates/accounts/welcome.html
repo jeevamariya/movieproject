@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Welcome
+{% endblock %}
+
+{% block content %}
+
+<div class="form-card">
+
+    <h1>Welcome, {{ user.first_name }}!</h1>
+
+    <p>Your account has been created successfully.</p>
+
+    <a href="{% url 'login' %}">
+        Go to Login
+    </a>
+
+</div>
+
+{% endblock %}

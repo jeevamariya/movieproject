@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Category Movies
+{% endblock %}
+
+{% block content %}
+
+<h1>Movies in This Category</h1>
+
+{% for movie in movies %}
+
+    <div class="movie-card">
+
+        <h2>{{ movie.title }}</h2>
+
+        <img src="{{ movie.poster.url }}" width="200">
+
+        <p>
+            <strong>Rating:</strong>
+            ⭐ {{ movie.rating }}
+        </p>
+
+        <p>
+            <strong>Category:</strong>
+            {{ movie.category }}
+        </p>
+
+        <a href="{% url 'movie_detail' movie.id %}">
+            View Details
+        </a>
+
+    </div>
+
+{% empty %}
+
+    <p>No movies available in this category.</p>
+
+{% endfor %}
+
+{% endblock %}

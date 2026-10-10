@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Delete Movie
+{% endblock %}
+
+{% block content %}
+
+<div class="form-card">
+
+    <h1>Delete Movie</h1>
+
+    <p>
+        Are you sure you want to delete
+        <strong>"{{ movie.title }}"</strong>?
+    </p>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <button type="submit">Yes, Delete</button>
+
+    </form>
+
+    <a href="{% url 'movie_detail' movie.id %}">
+        Cancel
+    </a>
+
+</div>
+
+{% endblock %}
